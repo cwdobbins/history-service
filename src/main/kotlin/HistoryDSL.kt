@@ -32,10 +32,23 @@ class HistoryDSL(jdbcUrl: String, jdbcDriver: String) {
     }
 
     fun get(user: String, id: String): Search {
-        println(Searches.select {
+        return Searches.select {
             (Searches.id.eq(id) and Searches.userName.eq(user))
-        })
-        return Search("1", "test")
+        }.first().let {
+            var keyword: KeywordSearch? = null
+            it[Searches.keywordLanguage]?.let { a ->
+              it[Searches.keywordKeyword]?.let { b ->
+                keyword = KeywordSearch(a, b)
+              }
+            }
+
+            Search(
+                it[Searches.id],
+                it[Searches.name],
+                it[Searches.submitted].toDate(),
+                keyword
+            )
+        }
     }
 
     fun put(user: String, search: Search): Unit {

@@ -8,10 +8,12 @@ import org.junit.Test
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
+import java.time.Instant
+import java.util.*
 
 class ITestHistoryDSL {
     val testUser = "test_user"
-    val testSearch = Search("123", "Test Search")
+    val testSearch = Search("123", "Test Search", Date.from(Instant.now()))
     val username = "postgres"
     val password = "testy"
     val jdbcUrl = "jdbc:postgresql://localhost:5432/?user=$username&password=$password"
@@ -51,6 +53,18 @@ class ITestHistoryDSL {
             "SELECT COUNT(*) FROM searches",
             { assert(it.getInt("count") == 3) }
         )
+    }
+
+    @Test
+    fun testGet() {
+        transaction {
+            dsl.put(testUser, testSearch)
+            val search = dsl.get(testUser, testSearch.id)
+            println(search)
+            println(testSearch)
+            println(search.equals(testSearch))
+            assert(search.equals(testSearch))
+        }
     }
 
     private fun checkResult(sql: String, assertion: (ResultSet) -> Unit) {
