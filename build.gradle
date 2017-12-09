@@ -1,0 +1,38 @@
+buildscript {
+    ext.kotlin_version = '1.2.0'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: "kotlin"
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://dl.bintray.com/kotlin/kotlin"
+    }
+    maven {
+        url "http://dl.bintray.com/kotlin/exposed"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile 'joda-time:joda-time:2.9.9'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile "org.jetbrains.exposed:exposed:0.9.1"
+    runtime "org.postgresql:postgresql:42.1.4"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile 'org.slf4j:slf4j-log4j12:1.7.25'
+    testCompile 'log4j:log4j:1.2.17'
+    testCompile 'junit:junit:4.12'
+}
