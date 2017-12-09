@@ -13,8 +13,8 @@ class ITestHistoryDSL {
     val testUser = "test_user"
     val testSearch = Search("123", "Test Search")
     val username = "postgres"
-    val password = "culebra"
-    val jdbcUrl = "jdbc:postgresql://localhost:5432/test?user=$username&password=$password"
+    val password = "testy"
+    val jdbcUrl = "jdbc:postgresql://localhost:5432/?user=$username&password=$password"
     val conn = DriverManager.getConnection(jdbcUrl, username, password)
 
     val dsl = HistoryDSL(
